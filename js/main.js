@@ -13,7 +13,7 @@ var tokenBalance = 0;
 var ethBalance = 0;
 var version = "0.0.1";
 
-var storjUSD = 0;
+var acoUSD = 0;
 var etherUSD = 0;
 
 var provider = new providers.EtherscanProvider(false);
@@ -30,30 +30,30 @@ function OpenEtherScan(txid) {
 }
 
 function OpenGithubRepo() {
-  shell.openExternal('https://github.com/hunterlong/neureal-wallet')
+  shell.openExternal('https://github.com/arisebank/arisecoin-wallet')
 }
 
 function OpenGithubReleases() {
-  shell.openExternal('https://github.com/hunterlong/neureal-wallet/releases')
+  shell.openExternal('https://github.com/arisebank/arisecoin-wallet/releases')
 }
 
 function OpenHunterGithub() {
-  shell.openExternal('https://github.com/hunterlong')
+  shell.openExternal('https://github.com/arisebank')
 }
 
 function OpenMyEtherWallet() {
-  shell.openExternal('https://www.myetherwallet.com')
+  shell.openExternal('https://eth.arisebank.com')
 }
 
-function StorjPrice() {
+function AriseCoinPrice() {
   var api = "https://api.coinmarketcap.com/v1/ticker/storj/";
   $.get(api, function(data, status){
-    storjUSD = parseFloat(data[0]['price_usd']);
+    acoUSD = parseFloat(data[0]['price_usd']);
   });
 }
 
 function EtherPrice() {
-  var api = "https://api.coinmarketcap.com/v1/ticker/ethereum/";
+  var api = "https://sunshine.arisebank.com/acharts/ticker/ethereum/";
   $.get(api, function(data, status){
     etherUSD = parseFloat(data[0]['price_usd']);
   });
@@ -63,16 +63,16 @@ UpdatePricing();
 
 function UpdatePricing() {
   EtherPrice();
-  StorjPrice();
+  AriseCoinPrice();
 }
 
 
 function UpdatePortfolio() {
   setTimeout(function() {
-    var totalStorj = tokenBalance * storjUSD;
+    var totalStorj = tokenBalance * acoUSD;
     var totalEth = ethBalance * etherUSD;
     var totalPort = totalStorj + totalEth;
-    // $("#portNeurealUSD").html("($"+storjUSD+")");
+    // $("#portNeurealUSD").html("($"+acoUSD+")");
     // $("#portEthUSD").html("($"+etherUSD+")");
     // $("#portfolioNeureal").html(totalStorj.toFixed(2))
     // $("#portfolioEth").html(totalEth.toFixed(2))
@@ -83,11 +83,11 @@ function UpdatePortfolio() {
 
 
 function CheckForUpdates() {
-  var versionFile = "https://raw.githubusercontent.com/hunterlong/neureal-wallet/master/VERSION";
+  var versionFile = "https://raw.githubusercontent.com/arisebank/arisecoin-wallet/master/VERSION";
   $.get(versionFile, function(data, status){
       var verCheck = data.replace(/^\s+|\s+$/g, '');
         if (version != verCheck) {
-          alert("There's a new Update for Storj Wallet! New Version: "+data);
+          alert("There's a new Update for AriseCoin Wallet! New Version: "+data);
           OpenGithubReleases();
         } else {
           alert("You have the most current version");
@@ -215,7 +215,7 @@ function updateBalance() {
         var trueBal = result[0].toString(10);
         var messageEl = $('#neurealbal');
         var n = trueBal * 0.00000001;
-        console.log("NECP Balance: " + n);
+        console.log("AriseCoin Balance: " + n);
         var atyxValue = n.toLocaleString(
             undefined, // use a string like 'en-US' to override browser locale
             {
